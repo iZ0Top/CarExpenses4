@@ -19,15 +19,11 @@ import com.alex.carexpenses4.utils.APP_ACTIVITY
 
 class ListFragment : Fragment() {
 
-
-
     private var _binding: FragmentListBinding? = null
     private val binding get() = _binding!!
     private lateinit var viewModel: ListViewModel
     private lateinit var mRecyclerView: RecyclerView
     private lateinit var expenseListObserver: Observer<List<Expense>>
-
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,17 +43,14 @@ class ListFragment : Fragment() {
 
         val mAdapter = ExpenseAdapter(object : UserActionListener {
             override fun onMove(expense: Expense, moveBy: Int) {
-                TODO("Not yet implemented")
+                viewModel.moveExpense(expense, moveBy)
             }
-
             override fun onDelete(expense: Expense) {
-
+                viewModel.deleteExpense(expense)
             }
-
             override fun onDetail(expense: Expense) {
                 Toast.makeText(APP_ACTIVITY, "selected expense id: ${expense.id}, name: ${expense.name}", Toast.LENGTH_SHORT).show()
             }
-
         })
         mRecyclerView = binding.listRecyclerView
         mRecyclerView.adapter = mAdapter
@@ -67,7 +60,6 @@ class ListFragment : Fragment() {
             mAdapter.listExpenses = it
         }
 
-
         initObservers()
     }
 
@@ -75,11 +67,9 @@ class ListFragment : Fragment() {
         viewModel.listLD.observe(viewLifecycleOwner, expenseListObserver)
     }
 
-
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
         viewModel.listLD.removeObserver(expenseListObserver)
     }
-
 }
