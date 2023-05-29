@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">CarExpenses4</string>
+    <string name="price_template">%1$.1f uah</string>
+    <string name="sum_template">%1$.1f uah</string>
+    <string name="quantity_template">%1$d pcs</string>
+
+    <string name="text_move_up">Move Up</string>
+    <string name="text_move_down">Move Down</string>
+    <string name="text_delete">Delete</string>
 </resources>
