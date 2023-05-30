@@ -25,25 +25,25 @@ class ListViewModel : ViewModel() {
     }
 
     fun getExpensesList(): List<Expense>{
-        return list
+        return listLD.value!!
     }
 
     fun deleteExpense(expense: Expense){
-        val indexToDelete = list.indexOfFirst { it.id == expense.id }
+        val indexToDelete = listLD.value!!.indexOfFirst { it.id == expense.id }
         if (indexToDelete != -1){
-            list.removeAt(indexToDelete)
-            listLD.postValue(list)
+            val listNew = ArrayList(listLD.value!!)
+            listNew.removeAt(indexToDelete)
+            listLD.postValue(listNew)
         }
     }
 
     fun moveExpense(expense: Expense, moveBy: Int){
-        val oldIndex = list.indexOfFirst { it.id == expense.id }
+        val oldIndex = listLD.value!!.indexOfFirst { it.id == expense.id }
         if (oldIndex == -1) return
         val newIndex = oldIndex + moveBy
-        if (newIndex < 0 || newIndex > list.size) return
-        Collections.swap(list, oldIndex, newIndex)
-        listLD.postValue(list)
+        if (newIndex < 0 || newIndex > listLD.value!!.size) return
+        val listNew = ArrayList(listLD.value!!)
+        Collections.swap(listLD.value!!, oldIndex, newIndex)
+        listLD.postValue(listNew)
     }
-
-
 }

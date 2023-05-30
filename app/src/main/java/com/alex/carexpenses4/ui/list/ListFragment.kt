@@ -56,10 +56,10 @@ class ListFragment : Fragment() {
         mRecyclerView.adapter = mAdapter
 
         expenseListObserver = Observer {
-            if (it.isNotEmpty()) binding.listProgressBar.visibility = View.INVISIBLE
+            binding.listProgressBar.visibility = View.INVISIBLE
+            if (it.isEmpty()) binding.listTextEmpty.visibility = View.VISIBLE
             mAdapter.listExpenses = it
         }
-
         initObservers()
     }
 

@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.widget.PopupMenu
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.alex.carexpenses4.R
 import com.alex.carexpenses4.databinding.ItemExpenseBinding
@@ -20,8 +21,10 @@ class ExpenseAdapter(
 
     var listExpenses = emptyList<Expense>()
         set(value) {
+            val diffCallback = MDiffCallback(field, value)
+            val diffResult = DiffUtil.calculateDiff(diffCallback, true)
             field = value
-            notifyDataSetChanged()
+            diffResult.dispatchUpdatesTo(this)
         }
 
     override fun getItemCount(): Int = listExpenses.size
@@ -37,7 +40,6 @@ class ExpenseAdapter(
     }
 
     override fun onBindViewHolder(holder: MyHolder, position: Int) {
-
         val expense = listExpenses[position]
         with(holder.binding){
             holder.itemView.tag = expense
@@ -102,7 +104,20 @@ class ExpenseAdapter(
     }
 }
 
-
+class MDiffCallback(private val listOld: List<Expense>, private val listNew: List<Expense>) : DiffUtil.Callback() {
+    override fun getOldListSize(): Int = listOld.size
+    override fun getNewListSize(): Int = listNew.size
+    override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+        val oldExpense = listOld[oldItemPosition]
+        val newExpense = listNew[newItemPosition]
+        return oldExpense.id == newExpense.id
+    }
+    override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+        val oldExpense = listOld[oldItemPosition]
+        val newExpense = listNew[newItemPosition]
+        return oldExpense == newExpense
+    }
+}
 
 interface UserActionListener{
     fun onMove(expense: Expense, moveBy: Int)
