@@ -7,7 +7,9 @@ import java.util.Collections
 
 class ListViewModel : ViewModel() {
 
-    var listLD = MutableLiveData<List<Expense>>()
+    private val _listLD = MutableLiveData<List<Expense>>()
+    val listLD = _listLD
+
     private var list = mutableListOf<Expense>()
 
     init {
@@ -21,7 +23,7 @@ class ListViewModel : ViewModel() {
         list.add(Expense(7, 1,106750,"08.01.0001", "Detail eight", "Description detail eight", "PARTNUM123456789-8", 1, 89.0 ))
         list.add(Expense(8, 1,108000,"09.01.0001", "Detail nine", "Description detail nine", "PARTNUM123456789-9", 1, 750.0 ))
         list.add(Expense(9, 1,109200,"10.01.0001", "Detail ten", "Description detail ten", "PARTNUM123456789-10", 4, 100.0 ))
-        listLD.postValue(list)
+        _listLD.postValue(list)
     }
 
     fun getExpensesList(): List<Expense>{
@@ -33,7 +35,7 @@ class ListViewModel : ViewModel() {
         if (indexToDelete != -1){
             val listNew = ArrayList(listLD.value!!)
             listNew.removeAt(indexToDelete)
-            listLD.postValue(listNew)
+            _listLD.postValue(listNew)
         }
     }
 
@@ -44,6 +46,6 @@ class ListViewModel : ViewModel() {
         if (newIndex < 0 || newIndex > listLD.value!!.size) return
         val listNew = ArrayList(listLD.value!!)
         Collections.swap(listLD.value!!, oldIndex, newIndex)
-        listLD.postValue(listNew)
+        _listLD.postValue(listNew)
     }
 }
