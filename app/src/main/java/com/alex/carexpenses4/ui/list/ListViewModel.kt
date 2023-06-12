@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.alex.carexpenses4.model.Expense
 import com.alex.carexpenses4.model.ExpenseService
+import com.alex.carexpenses4.model.MyListeners
 import java.util.Collections
 
 class ListViewModel (private val expenseService: ExpenseService) : ViewModel() {
@@ -17,10 +18,13 @@ class ListViewModel (private val expenseService: ExpenseService) : ViewModel() {
         return listLD.value!!
     }
 
-    fun loadExpenses(){
-
+    init {
+        loadExpenses()
     }
 
+    fun loadExpenses(){
+        expenseService.addListeners(listener)
+    }
 
     fun deleteExpense(expense: Expense){
         expenseService.deleteExpense(expense)
@@ -28,5 +32,14 @@ class ListViewModel (private val expenseService: ExpenseService) : ViewModel() {
 
     fun moveExpense(expense: Expense, moveBy: Int){
         expenseService.moveExpense(expense, moveBy)
+    }
+
+    private val listener: MyListeners = {
+        _listLD.value = it
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        expenseService.removeListeners(listener)
     }
 }
