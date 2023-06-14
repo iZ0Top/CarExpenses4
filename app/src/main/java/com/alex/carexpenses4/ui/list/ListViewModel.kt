@@ -12,14 +12,12 @@ class ListViewModel (private val expenseService: ExpenseService) : ViewModel() {
     private val _listLD = MutableLiveData<List<Expense>>()
     val listLD = _listLD
 
-    private var list = mutableListOf<Expense>()
+    init {
+        loadExpenses()
+    }
 
     fun getExpensesList(): List<Expense>{
         return listLD.value!!
-    }
-
-    init {
-        loadExpenses()
     }
 
     fun loadExpenses(){
