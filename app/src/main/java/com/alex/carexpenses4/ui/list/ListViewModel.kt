@@ -21,7 +21,7 @@ class ListViewModel (private val expenseService: ExpenseService) : ViewModel() {
     }
 
     fun loadExpenses(){
-        expenseService.addListeners(listener)
+        _listLD.value = expenseService.getExpenses()
     }
 
     fun deleteExpense(expense: Expense){

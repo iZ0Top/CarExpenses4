@@ -55,9 +55,14 @@ class ListFragment : Fragment() {
         mRecyclerView = binding.listRecyclerView
         mRecyclerView.adapter = mAdapter
 
+
+
         viewModel.listLD.observe(viewLifecycleOwner, Observer {
             mAdapter.listExpenses = it
         })
+
+
+
     }
 
     override fun onDestroy() {
