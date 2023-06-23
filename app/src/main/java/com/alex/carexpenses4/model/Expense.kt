@@ -12,3 +12,8 @@ data class Expense(
     val quantity: Int,
     val prise: Double
 )
+
+data class ExpenseDetails(
+    val expense: Expense,
+    val detailsDescription: String
+)

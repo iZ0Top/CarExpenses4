@@ -12,6 +12,11 @@ class ListViewModel (private val expenseService: ExpenseService) : ViewModel() {
     private val _listLD = MutableLiveData<List<Expense>>()
     val listLD = _listLD
 
+
+    private val listener: MyListeners = {
+        _listLD.value = it
+    }
+
     init {
         loadExpenses()
     }
@@ -21,7 +26,7 @@ class ListViewModel (private val expenseService: ExpenseService) : ViewModel() {
     }
 
     fun loadExpenses(){
-        _listLD.value = expenseService.getExpenses()
+        expenseService.addListeners(listener)
     }
 
     fun deleteExpense(expense: Expense){
@@ -32,9 +37,7 @@ class ListViewModel (private val expenseService: ExpenseService) : ViewModel() {
         expenseService.moveExpense(expense, moveBy)
     }
 
-    private val listener: MyListeners = {
-        _listLD.value = it
-    }
+
 
     override fun onCleared() {
         super.onCleared()

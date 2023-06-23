@@ -1,5 +1,6 @@
 package com.alex.carexpenses4.model
 
+import android.content.res.Resources.NotFoundException
 import java.util.Collections
 
 
@@ -24,6 +25,11 @@ class ExpenseService {
 
     fun getExpenses(): List<Expense>{
         return expensesList
+    }
+
+    fun getExpenseById(id: Int): ExpenseDetails{
+        val expense = expensesList.firstOrNull() {it.id == id} ?: throw NotFoundException("Expense not found!")
+        return ExpenseDetails(expense = expense, "TEXT DETAIL DESCRIPTION")
     }
 
     fun moveExpense(expense: Expense, moveBy: Int){
